@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin</title>
+  <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+  <main style="max-width: 400px; margin: 50px auto">
+    <h2>Login do Administrador</h2>
+    <form id="loginForm">
+      <input type="text" name="usuario" placeholder="Usuário" required />
+      <input type="password" name="senha" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="mensagem"></p>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const res = await fetch('http://localhost:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          usuario: form.usuario.value,
+          senha: form.senha.value
+        })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem('admin_auth', 'true');
+        window.location.href = 'dashboard.html';
+      } else {
+        document.getElementById('mensagem').textContent = data.erro;
+      }
+    });
+  </script>
+</body>
+</html>

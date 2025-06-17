@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Bons Fluídos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Portal Bons Fluídos</h1>
+    <nav>
+      <ul>
+        <li><a href="#doacoes">Cadastro de Doações</a></li>
+        <li><a href="#voluntarios">Cadastro de Voluntários</a></li>
+        <li><a href="#palestras">Agenda de Palestras</a></li>
+        <li><a href="#educativo">Conteúdo Educativo</a></li>
+        <li><a href="/admin/login.html">Área Administrativa</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- RF01 -->
+    <section id="doacoes">
+      <h2>Cadastro de Doações</h2>
+      <form id="formDoacao">
+        <input type="text" placeholder="Tipo de Doação" name="tipo" required />
+        <input type="text" placeholder="Nome do Doador" name="doador" required />
+        <input type="date" name="data" required />
+        <button type="submit">Cadastrar</button>
+      </form>
+    </section>
+
+    <!-- RF02 -->
+    <section id="voluntarios">
+      <h2>Cadastro de Voluntários</h2>
+      <form id="formVoluntario">
+        <input type="text" placeholder="Nome" name="nome" required />
+        <input type="text" placeholder="Contato" name="contato" required />
+        <input type="text" placeholder="Área de Interesse" name="area" required />
+        <button type="submit">Cadastrar</button>
+      </form>
+    </section>
+
+    <!-- RF03 -->
+    <section id="palestras">
+      <h2>Agenda de Palestras</h2>
+      <form id="formPalestra">
+        <input type="date" name="data" required />
+        <input type="text" placeholder="Local" name="local" required />
+        <input type="text" placeholder="Tema" name="tema" required />
+        <button type="submit">Agendar</button>
+      </form>
+    </section>
+
+    <!-- RF04 -->
+    <section id="educativo">
+      <h2>Conteúdos Educativos</h2>
+      <div class="card">
+        <h3>O que é pobreza menstrual?</h3>
+        <p>Entenda como a falta de acesso a produtos menstruais afeta a vida de milhares de meninas.</p>
+      </div>
+      <div class="card">
+        <h3>Higiene íntima</h3>
+        <p>Dicas práticas de higiene e cuidado durante o ciclo menstrual.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Projeto Bons Fluídos</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

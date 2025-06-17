@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="../public/style.css">
+</head>
+<body>
+  <main style="max-width: 900px; margin: 50px auto">
+    <h2>Área Administrativa</h2>
+    <button onclick="logout()" style="float:right">Sair</button>
+
+    <section>
+      <h3>Doações</h3>
+      <ul id="listaDoacoes"></ul>
+    </section>
+
+    <section>
+      <h3>Voluntários</h3>
+      <ul id="listaVoluntarios"></ul>
+    </section>
+
+    <section>
+      <h3>Palestras</h3>
+      <ul id="listaPalestras"></ul>
+    </section>
+  </main>
+
+  <script>
+    if (!localStorage.getItem('admin_auth')) {
+      alert('Acesso restrito. Faça login.');
+      window.location.href = 'login.html';
+    }
+
+    async function fetchData(endpoint, elementId, format) {
+      const res = await fetch(`http://localhost:3000/api/${endpoint}`);
+      const data = await res.json();
+      const list = document.getElementById(elementId);
+      list.innerHTML = data.map(format).join('');
+    }
+
+    fetchData('doacoes', 'listaDoacoes', item => `<li>${item.tipo} - ${item.doador} (${new Date(item.data).toLocaleDateString()})</li>`);
+    fetchData('voluntarios', 'listaVoluntarios', item => `<li>${item.nome} - ${item.contato} (${item.area})</li>`);
+    fetchData('palestras', 'listaPalestras', item => `<li>${new Date(item.data).toLocaleDateString()} - ${item.tema} (${item.local})</li>`);
+
+    function logout() {
+      localStorage.removeItem('admin_auth');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>
