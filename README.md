@@ -116,13 +116,6 @@ Senha: admin123
 
 ---
 
-## 👨‍💻 Desenvolvido por
-
-- Pedro (RA: 12345678)
-- Integrantes do grupo...
-
----
-
 ## 📄 Licença
 
 Projeto acadêmico sem fins lucrativos. Todos os direitos reservados aos autores.
