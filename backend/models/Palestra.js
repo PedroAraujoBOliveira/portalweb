@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const PalestraSchema = new mongoose.Schema({
-  data: Date,
-  local: String,
-  tema: String
+  titulo: { type: String, required: true },
+  data: { type: Date, required: true },
+  local: { type: String, required: true },
+  descricao: { type: String }
 });
 
 module.exports = mongoose.model('Palestra', PalestraSchema);

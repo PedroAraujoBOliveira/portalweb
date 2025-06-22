@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Doações</title>
+</head>
+<body>
+  <h1>Doações Recebidas</h1>
+
+  <ul id="listaDoacoes"></ul>
+
+  <script>
+    async function carregarDoacoes() {
+      const resposta = await fetch('http://localhost:3000/api/doacoes');
+      const doacoes = await resposta.json();
+
+      const lista = document.getElementById('listaDoacoes');
+      lista.innerHTML = '';
+
+      doacoes.forEach(d => {
+        const li = document.createElement('li');
+        const data = d.data ? new Date(d.data).toLocaleDateString() : 'sem data';
+li.textContent = `${d.nomeDoador || 'desconhecido'} doou ${d.quantidade || 0}x ${d.tipo || 'desconhecido'} em ${data}`;
+
+        lista.appendChild(li);
+      });
+    }
+
+    carregarDoacoes();
+  </script>
+</body>
+</html>

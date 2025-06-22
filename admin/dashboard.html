@@ -14,35 +14,89 @@
     <section>
       <h3>Doações</h3>
       <ul id="listaDoacoes"></ul>
+      <button onclick="apagarTudo('doacoes')">Apagar todas as doações</button>
     </section>
 
     <section>
       <h3>Voluntários</h3>
       <ul id="listaVoluntarios"></ul>
+      <button onclick="apagarTudo('voluntarios')">Apagar todos os voluntários</button>
     </section>
 
     <section>
       <h3>Palestras</h3>
       <ul id="listaPalestras"></ul>
+      <button onclick="apagarTudo('palestras')">Apagar todas as palestras</button>
     </section>
   </main>
 
   <script>
+    // Impede acesso não autorizado
     if (!localStorage.getItem('admin_auth')) {
       alert('Acesso restrito. Faça login.');
       window.location.href = 'login.html';
     }
 
+    // Função genérica para carregar dados
     async function fetchData(endpoint, elementId, format) {
-      const res = await fetch(`http://localhost:3000/api/${endpoint}`);
-      const data = await res.json();
-      const list = document.getElementById(elementId);
-      list.innerHTML = data.map(format).join('');
+      try {
+        const res = await fetch(`http://localhost:3000/api/${endpoint}`);
+        const data = await res.json();
+        const list = document.getElementById(elementId);
+        list.innerHTML = data.map(format).join('');
+      } catch (err) {
+        console.error(`Erro ao carregar ${endpoint}:`, err);
+      }
     }
 
-    fetchData('doacoes', 'listaDoacoes', item => `<li>${item.tipo} - ${item.doador} (${new Date(item.data).toLocaleDateString()})</li>`);
-    fetchData('voluntarios', 'listaVoluntarios', item => `<li>${item.nome} - ${item.contato} (${item.area})</li>`);
-    fetchData('palestras', 'listaPalestras', item => `<li>${new Date(item.data).toLocaleDateString()} - ${item.tema} (${item.local})</li>`);
+    // Formatação de dados
+    function formatador(endpoint) {
+      switch (endpoint) {
+        case 'doacoes':
+          return item => {
+            const data = item.data ? new Date(item.data).toLocaleDateString() : 'sem data';
+            return `<li>${item.nomeDoador || 'Desconhecido'} doou ${item.quantidade || 0}x ${item.tipo} em ${data}</li>`;
+          };
+        case 'voluntarios':
+          return item => `<li>${item.nome} - ${item.email || item.telefone || 'sem contato'} (${item.areaInteresse})</li>`;
+        case 'palestras':
+          return item => {
+            const data = item.data ? new Date(item.data).toLocaleDateString() : 'sem data';
+            return `<li>${item.titulo || 'Sem título'} em ${item.local || 'Local indefinido'} - ${data}</li>`;
+          };
+      }
+    }
+
+    // Carrega os dados inicialmente
+    fetchData('doacoes', 'listaDoacoes', formatador('doacoes'));
+    fetchData('voluntarios', 'listaVoluntarios', formatador('voluntarios'));
+    fetchData('palestras', 'listaPalestras', formatador('palestras'));
+
+    // Botão de apagar todos os dados
+    async function apagarTudo(endpoint) {
+  const confirmar = confirm(`Tem certeza que deseja apagar todos os dados de ${endpoint}?`);
+  if (!confirmar) return;
+
+  console.log('Deletando via endpoint:', endpoint);
+
+  const res = await fetch(`/api/${endpoint}`, { method: 'DELETE' });
+
+  if (res.ok) {
+    alert(`Todos os dados de ${endpoint} foram apagados.`);
+
+    // 👇 Define o ID corretamente baseado no endpoint
+    const idLista = endpoint === 'doacoes' ? 'listaDoacoes'
+                  : endpoint === 'voluntarios' ? 'listaVoluntarios'
+                  : 'listaPalestras';
+
+    fetchData(endpoint, idLista, formatador(endpoint));
+  } else {
+    alert('Erro ao apagar dados.');
+  }
+}
+    function capitalize(texto) {
+      return texto.charAt(0).toUpperCase() + texto.slice(1);
+    }
 
     function logout() {
       localStorage.removeItem('admin_auth');

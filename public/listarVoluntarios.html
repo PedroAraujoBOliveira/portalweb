@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Voluntários</title>
+</head>
+<body>
+  <h1>Voluntários Cadastrados</h1>
+
+  <ul id="listaVoluntarios">
+    <!-- Lista será preenchida com JavaScript -->
+  </ul>
+
+  <script>
+    async function carregarVoluntarios() {
+      const resposta = await fetch('http://localhost:3000/api/voluntarios');
+      const voluntarios = await resposta.json();
+
+      const lista = document.getElementById('listaVoluntarios');
+      lista.innerHTML = '';
+
+      voluntarios.forEach(v => {
+        const li = document.createElement('li');
+        li.textContent = `${v.nome} (${v.email}) - Interesse: ${v.areaInteresse} - Disp.: ${v.disponibilidade}`;
+        lista.appendChild(li);
+      });
+    }
+
+    carregarVoluntarios();
+  </script>
+</body>
+</html>

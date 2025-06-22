@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Voluntário</title>
+</head>
+<body>
+  <h1>Cadastro de Voluntário</h1>
+
+  <form id="formVoluntario">
+    <input type="text" name="nome" placeholder="Nome" required><br><br>
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="text" name="telefone" placeholder="Telefone"><br><br>
+    <input type="text" name="areaInteresse" placeholder="Área de Interesse"><br><br>
+    <input type="text" name="disponibilidade" placeholder="Disponibilidade"><br><br>
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <script>
+    document.getElementById('formVoluntario').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const dados = Object.fromEntries(formData.entries());
+
+      const resposta = await fetch('http://localhost:3000/api/voluntarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+
+      const resultado = await resposta.json();
+      alert('Voluntário cadastrado com sucesso!');
+      console.log(resultado);
+    });
+  </script>
+</body>
+</html>

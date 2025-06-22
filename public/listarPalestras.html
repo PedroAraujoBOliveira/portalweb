@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Palestras</title>
+</head>
+<body>
+  <h1>Palestras Agendadas</h1>
+
+  <ul id="listaPalestras"></ul>
+
+  <script>
+    async function carregarPalestras() {
+      const resposta = await fetch('http://localhost:3000/api/palestras');
+      const palestras = await resposta.json();
+
+      const lista = document.getElementById('listaPalestras');
+      lista.innerHTML = '';
+
+      palestras.forEach(p => {
+        const li = document.createElement('li');
+        const data = p.data ? new Date(p.data).toLocaleDateString() : 'sem data';
+        li.textContent = `${p.titulo || 'Sem título'} em ${p.local || 'local indefinido'} - ${data}`;
+        lista.appendChild(li);
+      });
+    }
+
+    carregarPalestras();
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Doações</title>
+</head>
+<body>
+  <h1>Cadastro de Doações</h1>
+
+  <form id="formDoacao">
+    <input type="text" name="nomeDoador" placeholder="Nome do Doador" required><br><br>
+    <input type="text" name="tipo" placeholder="Tipo de Doação (Absorvente, Dinheiro, Outros)" required><br><br>
+    <input type="number" name="quantidade" placeholder="Quantidade" required><br><br>
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <script>
+    document.getElementById('formDoacao').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+      const dados = Object.fromEntries(formData.entries());
+
+      const resposta = await fetch('http://localhost:3000/api/doacoes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      });
+
+      const resultado = await resposta.json();
+      alert('Doação cadastrada com sucesso!');
+      console.log(resultado);
+    });
+  </script>
+</body>
+</html>

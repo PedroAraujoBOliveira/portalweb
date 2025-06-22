@@ -44,4 +44,22 @@ app.get('/api/doacoes', async (req, res) => res.json(await Doacao.find().sort({ 
 app.get('/api/voluntarios', async (req, res) => res.json(await Voluntario.find().sort({ nome: 1 })));
 app.get('/api/palestras', async (req, res) => res.json(await Palestra.find().sort({ data: 1 })));
 
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/admin', express.static(path.join(__dirname, '../admin')));
 app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
+
+app.delete('/api/doacoes', async (req, res) => {
+  await Doacao.deleteMany({});
+  res.status(204).end();
+});
+
+app.delete('/api/voluntarios', async (req, res) => {
+  await Voluntario.deleteMany({});
+  res.status(204).end();
+});
+
+app.delete('/api/palestras', async (req, res) => {
+  await Palestra.deleteMany({});
+  res.status(204).end();
+});
