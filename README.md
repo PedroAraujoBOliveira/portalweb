@@ -18,26 +18,36 @@ Projeto desenvolvido para a disciplina **Certificadora de Competências I**.
 ## 📁 Estrutura de Pastas
 
 ```bash
+portalweb/
 ├── admin/
-│   ├── login.html
-│   └── dashboard.html
+│   ├── dashboard.html
+│   └── login.html
+│
 ├── backend/
 │   ├── models/
 │   │   ├── Admin.js
 │   │   ├── Doacao.js
 │   │   ├── Palestra.js
 │   │   └── Voluntario.js
-│   ├── .env
-│   ├── server.js
-│   └── createAdmin.js
+│   ├── createAdmin.js
+│   ├── package-lock.json
+│   ├── package.json
+│   └── server.js
+│
 ├── public/
+│   ├── cadastroDoacao.html
+│   ├── cadastroPalestra.html
+│   ├── cadastroVoluntario.html
+│   ├── listarDoacoes.html
+│   ├── listarPalestras.html
+│   ├── listarVoluntarios.html
 │   ├── index.html
-│   ├── style.css
-│   └── script.js
-├── components/
-│   ├── header.html
-│   └── footer.html
+│   ├── script.js
+│   └── style.css
+│
+├── .gitignore
 └── README.md
+
 ```
 
 ---
